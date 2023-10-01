@@ -115,7 +115,7 @@ const Home = () => {
                 <Note key={note.id} {...note} onDelete={handleDelete} />
               ))}
             </div>
-            <div className="col-span-1">
+            <div className="md:col-span-1 max-sm:hidden">
               <Lottie options={defaultOptions} height={450} width={450} />
             </div>
           </div>
