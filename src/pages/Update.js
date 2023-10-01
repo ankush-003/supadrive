@@ -31,7 +31,7 @@ const Update = () => {
       }
     }
     fetcFile()
-  }, [id, navigate])
+  }, [id,file, navigate])
 
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -57,7 +57,8 @@ const Update = () => {
         description
       },
     ]).eq("id", id)
-
+    console.log(data);
+    
     if (error) {
       console.error("Error inserting file data:", error)
       toast.error("Error inserting file data", {
