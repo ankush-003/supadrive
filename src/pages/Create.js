@@ -20,7 +20,7 @@ const Create = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!title || !description || !file) {
+    if (!title || !description) {
       setFormError("Please fill in all the fields correctly.");
       toast.error("Please fill in all the fields correctly", {
         position: "top-right",
@@ -36,14 +36,30 @@ const Create = () => {
     }
 
     // uploading file to supabase storage
-    const { data: fileData, error: fileError } = await supabase.storage
-      .from("files")
-      .upload(`files/${file.name}`, file);
+    let file_name, file_url = null;
+    let file_size = 0;
+    if (file) {
 
-      if (fileError) {
-        console.error('Error uploading file:', fileError);
-        setFormError("Error uploading file.");
-        toast.error("Error uploading file", {
+      const { data: fileData, error: fileError } = await supabase.storage
+        .from("files")
+        .upload(`files/${file.name}`, file);
+  
+        if (fileError) {
+          console.error('Error uploading file:', fileError);
+          setFormError("Error uploading file.");
+          toast.error("Error uploading file", {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "dark",
+          });
+          return;
+        }
+        toast.success("File uploaded successfully", {
           position: "top-right",
           autoClose: 5000,
           hideProgressBar: false,
@@ -53,26 +69,18 @@ const Create = () => {
           progress: undefined,
           theme: "dark",
         });
-        return;
-      }
-      toast.success("File uploaded successfully", {
-        position: "top-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "dark",
-      });
-      // console.log(fileData);
-    const file_path = await supabase.storage
-      .from("files")
-      .getPublicUrl(fileData.path);
-    console.log(file_path.data.publicUrl);
+        // console.log(fileData);
+      const file_path = await supabase.storage
+        .from("files")
+        .getPublicUrl(fileData.path);
+      console.log(file_path.data.publicUrl);
+      file_name = fileData.path;
+      file_size = file.size;
+      file_url = file_path.data.publicUrl;
+    }
     const { data, error } = await supabase
       .from("notes")
-      .insert([{ title, description, file_url: file_path.data.publicUrl, file_name: fileData.path }]);
+      .insert([{ title, description, file_url, file_name, file_size }]);
 
     if (error) {
       console.log(error);

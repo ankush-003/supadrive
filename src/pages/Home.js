@@ -10,11 +10,13 @@ const Home = () => {
   const [fetchError, setFetchError] = useState(null);
   const [notes, setNotes] = useState(null);
 
+  const [orderBy, setOrderBy] = useState("created_at");
+
   const handleDelete = async (id) => {
-    setNotes(prevnotes => {
-      return prevnotes.filter(note => note.id !== id)
+    setNotes((prevnotes) => {
+      return prevnotes.filter((note) => note.id !== id);
     });
-  }
+  };
 
   const defaultOptions = {
     loop: true,
@@ -27,7 +29,10 @@ const Home = () => {
 
   useEffect(() => {
     const fetchNotes = async () => {
-      const { data, error } = await supabase.from("notes").select("*");
+      const { data, error } = await supabase
+        .from("notes")
+        .select("*")
+        .order(orderBy, { ascending: false });
 
       if (error) {
         setFetchError(error);
@@ -62,11 +67,10 @@ const Home = () => {
       console.log(data);
     };
     fetchNotes();
-  }, []);
-
+  }, [orderBy]);
 
   return (
-    <div className="page home" on>
+    <div className="page home">
       <ToastContainer
         position="top-right"
         autoClose={5000}
@@ -79,23 +83,43 @@ const Home = () => {
         pauseOnHover
         theme="dark"
       />
-      <h2 className="font-poppins text-center text-xl font-semibold ">Your Files</h2>
+      <h2 className="font-poppins text-center text-xl font-semibold ">
+        Your Files
+      </h2>
       {fetchError && (
         <p className="text-center text-red-500 font-bold text-xl my-10">
           {"404 Notes Not Found"}
         </p>
       )}
       {notes && (
-        <div className="grid md:grid-cols-4 sm:grid-cols-2">
-          <div className="notes flex flex-wrap md:gap-x-8 sm:gap-5 items-center sm:col-span-2 md:col-span-3">
-            {notes.map((note) => (
-              <Note key={note.id} {...note} onDelete={handleDelete} />
-            ))}
+        <>
+          <div className="flex gap-4 p-1 mx-4 items-center">
+            <p className="font-poppins text-center text-lg font-semibold ">
+              Order By:
+            </p>
+            <select
+              className="font-poppins text-center text-lg bg-lime-400  font-semibold border-2 border-black rounded-xl p-1"
+              value={orderBy}
+              onChange={(e) => setOrderBy(e.target.value)}
+            >
+              <option value="created_at" selected>
+                Time Created
+              </option>
+              <option value="file_size">File Size</option>
+              <option value="title">Title</option>
+            </select>
           </div>
-          <div className="col-span-1">
-            <Lottie options={defaultOptions} height={450} width={450} />
+          <div className="grid md:grid-cols-4 sm:grid-cols-2">
+            <div className="notes flex flex-wrap md:gap-x-8 sm:gap-5 items-center sm:col-span-2 md:col-span-3">
+              {notes.map((note) => (
+                <Note key={note.id} {...note} onDelete={handleDelete} />
+              ))}
+            </div>
+            <div className="col-span-1">
+              <Lottie options={defaultOptions} height={450} width={450} />
+            </div>
           </div>
-        </div>
+        </>
       )}
     </div>
   );
