@@ -109,7 +109,7 @@ const Create = () => {
         progress: undefined,
         theme: "dark",
       });
-      // navigate('/', { replace: true });
+      navigate('/', { replace: true });
     }
   };
 
