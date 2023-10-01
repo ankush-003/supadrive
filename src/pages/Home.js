@@ -41,16 +41,17 @@ const Home = () => {
       }
 
       setNotes(data);
-      // toast.success("Notes Fetched", {
-      //   position: "top-right",
-      //   autoClose: 5000,
-      //   hideProgressBar: false,
-      //   closeOnClick: true,
-      //   pauseOnHover: true,
-      //   draggable: true,
-      //   progress: undefined,
-      //   theme: "dark",
-      // });
+      toast.success("Notes Fetched", {
+        toastId: "notes-fetched",
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+      });
       setFetchError(null);
       console.log(data);
     };
@@ -59,7 +60,7 @@ const Home = () => {
 
 
   return (
-    <div className="page home">
+    <div className="page home" on>
       <ToastContainer
         position="top-right"
         autoClose={5000}
@@ -72,7 +73,7 @@ const Home = () => {
         pauseOnHover
         theme="dark"
       />
-      <h2 className="font-poppins text-center text-xl">Your Files</h2>
+      <h2 className="font-poppins text-center text-xl font-semibold ">Your Files</h2>
       {fetchError && (
         <p className="text-center text-red-500 font-bold text-xl my-10">
           {"404 Notes Not Found"}
