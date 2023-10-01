@@ -72,7 +72,7 @@ const Create = () => {
     console.log(file_path.data.publicUrl);
     const { data, error } = await supabase
       .from("notes")
-      .insert([{ title, description, file_path: file_path.data.publicUrl }]);
+      .insert([{ title, description, file_url: file_path.data.publicUrl, file_name: fileData.path }]);
 
     if (error) {
       console.log(error);

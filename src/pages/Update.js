@@ -2,6 +2,7 @@ import { useParams, useNavigate } from "react-router-dom"
 import { useState, useEffect } from "react"
 import supabase from "../config/supabaseClient"
 import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Update = () => {
   const { id } = useParams()
@@ -57,8 +58,9 @@ const Update = () => {
         description
       },
     ]).eq("id", id)
+    .select("*");
     console.log(data);
-    
+
     if (error) {
       console.error("Error inserting file data:", error)
       toast.error("Error inserting file data", {

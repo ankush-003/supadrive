@@ -10,6 +10,12 @@ const Home = () => {
   const [fetchError, setFetchError] = useState(null);
   const [notes, setNotes] = useState(null);
 
+  const handleDelete = async (id) => {
+    setNotes(prevnotes => {
+      return prevnotes.filter(note => note.id !== id)
+    });
+  }
+
   const defaultOptions = {
     loop: true,
     autoplay: true,
@@ -83,7 +89,7 @@ const Home = () => {
         <div className="grid md:grid-cols-4 sm:grid-cols-2">
           <div className="notes flex flex-wrap md:gap-x-8 sm:gap-5 items-center sm:col-span-2 md:col-span-3">
             {notes.map((note) => (
-              <Note key={note.id} {...note} />
+              <Note key={note.id} {...note} onDelete={handleDelete} />
             ))}
           </div>
           <div className="col-span-1">
