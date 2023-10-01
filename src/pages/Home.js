@@ -79,8 +79,8 @@ const Home = () => {
         </p>
       )}
       {notes && (
-        <div className="grid grid-cols-4">
-          <div className="notes flex flex-wrap gap-x-8  items-center col-span-3">
+        <div className="grid md:grid-cols-4 sm:grid-cols-2">
+          <div className="notes flex flex-wrap gap-x-8  items-center sm:col-span-2 md:col-span-3">
             {notes.map((note) => (
               <Note key={note.id} {...note} />
             ))}
