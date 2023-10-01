@@ -72,7 +72,7 @@ const Home = () => {
         pauseOnHover
         theme="dark"
       />
-      <h2 className="font-poppins text-center text-xl">Your Notes</h2>
+      <h2 className="font-poppins text-center text-xl">Your Files</h2>
       {fetchError && (
         <p className="text-center text-red-500 font-bold text-xl my-10">
           {"404 Notes Not Found"}

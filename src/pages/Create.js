@@ -91,7 +91,7 @@ const Create = () => {
     if (data) {
       // console.log(data);
       setFormError(null);
-      navigate("/");
+      navigate('/');
     }
   };
 
